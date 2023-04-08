@@ -4,11 +4,8 @@ using UnityEngine;
 
 public class player : MonoBehaviour
 {
-    float hAxis; //좌우 움직임 <>
-    float vAxis; //상하 움직임 ▲▼
-
-    public float speed;
-    bool  wdown;
+    public float speed; //움직이는 속도
+    bool  wdown;//left shift
     Vector3 moveVec;
 
     Animator anim;
@@ -25,10 +22,7 @@ public class player : MonoBehaviour
     }
     private void movePlayer()
     {
-        hAxis = Input.GetAxisRaw("Horizontal");
-        vAxis = Input.GetAxisRaw("Vertical");
-        moveVec = new Vector3( hAxis, 0,vAxis).normalized;
-       
+        moveVec = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical")).normalized;
 
         wdown = Input.GetButton("walk");
         //걷기에 따른 속도 번화

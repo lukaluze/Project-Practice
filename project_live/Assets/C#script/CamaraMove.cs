@@ -15,7 +15,7 @@ public class CamaraMove : MonoBehaviour
     {
         transform.position = target.position + offset;
         MoveCamara();
-        playerLookfoward();
+        //playerLookfoward();
     }
     //카메라 회전 움직이기
     private void MoveCamara()
