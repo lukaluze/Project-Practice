@@ -20,7 +20,7 @@ public class CamaraMove : MonoBehaviour
     //카메라 회전 움직이기
     private void MoveCamara()
     {
-        Vector2 mouseDelta = new Vector2 ( Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y") );
+        Vector3 mouseDelta = new Vector3 ( Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y") ); 
         Vector3 camAngle = transform.rotation.eulerAngles;
         //x값 제한 걸기
         float x = camAngle.x - mouseDelta.y;
