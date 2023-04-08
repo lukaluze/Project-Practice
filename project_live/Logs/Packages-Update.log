@@ -42,3 +42,17 @@ The following packages were 추가됨:
   com.unity.test-framework@1.1.31
 The following packages were 업데이트됨:
   com.unity.collab-proxy 1.13.5 버전에서 2.0.1버전으로  com.unity.timeline 1.6.2 버전에서 1.6.4버전으로  com.unity.visualscripting 1.7.6 버전에서 1.8.0버전으로
+=== Sat Apr  8 13:18:54 2023
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were 업데이트됨:
+  com.unity.collab-proxy 1.2.16 버전에서 2.0.1버전으로  com.unity.ide.rider 1.1.4 버전에서 3.0.18버전으로  com.unity.ide.vscode 1.2.3 버전에서 1.2.5버전으로  com.unity.test-framework 1.1.20 버전에서 1.1.31버전으로  com.unity.textmeshpro 2.1.1 버전에서 3.0.6버전으로  com.unity.timeline 1.2.17 버전에서 1.6.4버전으로
+=== Sat Apr  8 13:18:54 2023
+
+Packages were changed.
+Update Mode: mergeDefaultDependencies
+
+The following packages were 추가됨:
+  com.unity.2d.sprite@1.0.0
