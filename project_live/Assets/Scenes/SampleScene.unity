@@ -260,7 +260,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5903297864969995812, guid: 8f5e135a19626f544908fc8f156144b9, type: 3}
   m_PrefabInstance: {fileID: 976579591}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &528721336
+--- !u!114 &528721335
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -269,15 +269,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 528721330}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97c716868fdab364589708185fc4a4da, type: 3}
+  m_Script: {fileID: 11500000, guid: 9beab78c98eeb814597cefaf55494295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Dpi: 3
   speed: 15
   characterBody: {fileID: 528721334}
   cameraArm: {fileID: 2040015450}
-  wDown: 0
-  animator: {fileID: 0}
 --- !u!1 &542481697
 GameObject:
   m_ObjectHideFlags: 0
@@ -599,7 +597,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4122651a14262348a0c5cc267594b8b, type: 3}
+  m_Script: {fileID: 11500000, guid: 8a04d3fa427158b4b98216f9625f0a5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 528721334}

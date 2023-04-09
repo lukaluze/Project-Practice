@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class newpLAYER : MonoBehaviour
+public class PlayerMove : MonoBehaviour
 {
     public float Dpi; //민감도
     public float speed; //이동 속도
