@@ -37,9 +37,10 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         inputKey(); 
-        LookAround();
+        if (isJump == false)
+            LookAround();
         Move();
-        Junp();
+        Jump();
     }
     
     void inputKey() // 키 입력 모음
@@ -51,7 +52,7 @@ public class PlayerMove : MonoBehaviour
         }
         x_Mouse = Input.GetAxis("Mouse X"); //마우스 위 아래
         y_Mouse = Input.GetAxis("Mouse Y"); //마우스 좌 우
-        jDown = Input.GetButtonDown("Jump");
+        jDown = Input.GetButtonDown("Jump"); //점프 (스페이스)
     }
     private void Move() //캐릭터 이동
     {   
@@ -62,10 +63,9 @@ public class PlayerMove : MonoBehaviour
 
         characterBody.forward = lookForward;
 
-        if(wDown) //shift누를 시
-            transform.position += moveDir * Time.deltaTime * speed * 0.3f; //원래 속도에 0.3 곱
-        else
-            transform.position += moveDir * Time.deltaTime * speed;
+        //shift누를 시 원래 속도에 0.3 곱
+        transform.position += moveDir * Time.deltaTime * speed * (wDown ? 0.3f : 1.0f);
+  
 
         animator.SetBool("isRun", moveVec != Vector2.zero);
         animator.SetBool("isWalk", wDown);
@@ -73,7 +73,7 @@ public class PlayerMove : MonoBehaviour
         Debug.DrawRay(cameraArm.position, new Vector3(cameraArm.forward.x, 0f, cameraArm.forward.z).normalized, Color.red); //캐릭 보는 방향 디버그
     }
 
-    void Junp()
+    void Jump()
     {
         if (jDown&&!isJump)
         {
