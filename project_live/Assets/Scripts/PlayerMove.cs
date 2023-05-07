@@ -7,7 +7,8 @@ public class PlayerMove : MonoBehaviour
     public float Dpi; //민감도
     public float speed; //이동 속도
     public float jumpfower;//점프 힘
-
+    public GameObject[] weapons; //획득할 무기의 종류 확인 변수
+    public bool[] hasWeapons; //무기의 종류 확인 변수 
 
     [SerializeField]
     private Transform characterBody;
@@ -22,10 +23,25 @@ public class PlayerMove : MonoBehaviour
     bool jDown; //space
     bool wDown; //left shift
     bool isJump; //점프중?
+    bool iDown; //상호작용
+
+    bool sDown1; //장비 번호
+    bool sDown2;
+    bool sDown3;
+    bool isSwap; //무기 변경중인지 확인하는 bool값
+    bool isFireReady; //공격 준비완료
+
+    bool fDown;     //공격 버튼
     float x_Mouse;
     float y_Mouse;
 
+    float fireDelay; //공격의 딜레이
+
     Animator animator;
+
+    GameObject nearObject; //item먹었을 경우 이벤트
+    Weapon equipWeapon; //장착중인 무기
+    int equipWeaponIndex = -1; //무기 없을때는 교체 안되도록
 
     void Start()
     {
@@ -37,10 +53,13 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         inputKey(); 
-        if (isJump == false)
-            LookAround();
+        LookAround();
         Move();
         Jump();
+        Attack();       //공격 함수
+        Interation();
+        Swap();         //플레이어가 들고있는 무기 변경 함수
+        SwapOut();      //플레이어가 무기교체중인지의 대한 bool값을 확인(변경) 하는 함수
     }
     
     void inputKey() // 키 입력 모음
@@ -52,7 +71,14 @@ public class PlayerMove : MonoBehaviour
         }
         x_Mouse = Input.GetAxis("Mouse X"); //마우스 위 아래
         y_Mouse = Input.GetAxis("Mouse Y"); //마우스 좌 우
-        jDown = Input.GetButtonDown("Jump"); //점프 (스페이스)
+        jDown = Input.GetButtonDown("Jump");
+        iDown = Input.GetButtonDown("Interation"); //e키를 누를시 idow이 활성화
+
+        sDown1 = Input.GetButtonDown("Swap1"); //1키를 누를시 해머
+        sDown2 = Input.GetButtonDown("Swap2"); //2키를 누를시 권총
+        sDown3 = Input.GetButtonDown("Swap3"); //3키를 누를시 머신건
+
+        fDown = Input.GetButtonDown("Fire1"); //왼쪽마우스 클리시 
     }
     private void Move() //캐릭터 이동
     {   
@@ -63,9 +89,10 @@ public class PlayerMove : MonoBehaviour
 
         characterBody.forward = lookForward;
 
-        //shift누를 시 원래 속도에 0.3 곱
-        transform.position += moveDir * Time.deltaTime * speed * (wDown ? 0.3f : 1.0f);
-  
+        if(wDown) //shift누를 시
+            transform.position += moveDir * Time.deltaTime * speed * 0.3f; //원래 속도에 0.3 곱
+        else
+            transform.position += moveDir * Time.deltaTime * speed;
 
         animator.SetBool("isRun", moveVec != Vector2.zero);
         animator.SetBool("isWalk", wDown);
@@ -75,12 +102,28 @@ public class PlayerMove : MonoBehaviour
 
     void Jump()
     {
-        if (jDown&&!isJump)
+        if (jDown && !isJump && !isSwap)
         {
             rigid.AddForce(Vector3.up * jumpfower,ForceMode.Impulse);
             isJump = true;
             animator.SetBool("isJump", true);
             animator.SetTrigger("doJump");
+        }
+    }
+
+    void Attack()
+    {
+        if(equipWeapon == null)//손에 무기가 있는지 확인
+            return;
+        
+        fireDelay += Time.deltaTime;
+        isFireReady = equipWeapon.rate < fireDelay;
+
+        if(fDown && isFireReady && !isSwap)
+        {
+            equipWeapon.Use(); //무기 스크립트에 있는 use
+            animator.SetTrigger("doSwing");
+            fireDelay = 0;//공격을 했기에 딜레이를 0으로 설정
         }
     }
 
@@ -108,4 +151,63 @@ public class PlayerMove : MonoBehaviour
             animator.SetBool("isJump", false);
         }
     }
+
+    void Swap(){
+        //무기 먹지 않았거나 같은 무기를 들고 있을때는 변경 불가능
+        if(sDown1 && (!hasWeapons[0] || equipWeaponIndex == 0))
+            return;
+        if(sDown2 && (!hasWeapons[1] || equipWeaponIndex == 1))
+            return;
+        if(sDown3 && (!hasWeapons[2] || equipWeaponIndex == 2))
+            return;
+
+        int weaponIndex = -1; //무기 인덱스 값 변수지정
+        if(sDown1) weaponIndex = 0; //해머
+        if(sDown2) weaponIndex = 1; //권총
+        if(sDown3) weaponIndex = 2; //머신건
+
+        if((sDown1 || sDown2 || sDown3) && !isJump ){ //무기변경, 점프시에는 불가능
+            if(equipWeapon != null){
+                equipWeapon.gameObject.SetActive(false);
+            } 
+            equipWeaponIndex = weaponIndex;
+            equipWeapon = weapons[weaponIndex].GetComponent<Weapon>();
+            weapons[weaponIndex].gameObject.SetActive(true); //무기 활성화
+
+            animator.SetTrigger("doSwap");
+
+            isSwap = true;//무기 교체중
+            Invoke("SwapOut", 0.4f); //0.4초후에 무기 교체 false로 할당 
+        }
+    }
+
+    void SwapOut(){
+        isSwap = false;
+    }
+
+    void Interation(){
+        if(iDown && nearObject != null && !isJump){
+            if(nearObject.tag == "Weapon"){
+                Item item = nearObject.GetComponent<Item>();
+                int weaponIndex = item.value; //망치 0, 권총 1, 머신건 2
+                hasWeapons[weaponIndex] = true;
+
+                Destroy(nearObject);//현재 가지고 있는 무기 제거
+            }
+        }
+    }
+    
+    private void OnTriggerStay(Collider other) { //item먹었을때 이벤트
+        if(other.tag == "Weapon"){
+            nearObject = other.gameObject;
+        } //item의 tag가 weapon일 경우
+            
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if(other.tag == "Weapon"){
+            nearObject = null;
+        }
+    }
+    
 }
