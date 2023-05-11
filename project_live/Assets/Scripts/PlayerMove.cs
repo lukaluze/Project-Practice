@@ -8,7 +8,8 @@ public class PlayerMove : MonoBehaviour
     public float speed; //이동 속도
     public float jumpfower;//점프 힘
     public GameObject[] weapons; //획득할 무기의 종류 확인 변수
-    public bool[] hasWeapons; //무기의 종류 확인 변수 
+    public bool[] hasWeapons;
+    public int[] eatWeapons = {-1,-1,-1};
 
     [SerializeField]
     private Transform characterBody;
@@ -154,7 +155,7 @@ public class PlayerMove : MonoBehaviour
 
     void Swap(){
         //무기 먹지 않았거나 같은 무기를 들고 있을때는 변경 불가능
-        if(sDown1 && (!hasWeapons[0] || equipWeaponIndex == 0))
+        if(sDown1 && (!hasWeapons[0]|| equipWeaponIndex == 0 ))
             return;
         if(sDown2 && (!hasWeapons[1] || equipWeaponIndex == 1))
             return;
@@ -162,9 +163,9 @@ public class PlayerMove : MonoBehaviour
             return;
 
         int weaponIndex = -1; //무기 인덱스 값 변수지정
-        if(sDown1) weaponIndex = 0; //해머
-        if(sDown2) weaponIndex = 1; //권총
-        if(sDown3) weaponIndex = 2; //머신건
+        if(sDown1) weaponIndex = eatWeapons[0]; 
+        if(sDown2) weaponIndex = eatWeapons[1]; 
+        if(sDown3) weaponIndex = eatWeapons[2]; 
 
         if((sDown1 || sDown2 || sDown3) && !isJump ){ //무기변경, 점프시에는 불가능
             if(equipWeapon != null){
@@ -190,7 +191,20 @@ public class PlayerMove : MonoBehaviour
             if(nearObject.tag == "Weapon"){
                 Item item = nearObject.GetComponent<Item>();
                 int weaponIndex = item.value; //망치 0, 권총 1, 머신건 2
-                hasWeapons[weaponIndex] = true;
+                for (int i = 0; i < 3; i++) //아이템 순서대로 먹기
+                {
+                    for(int m =0; m< 3;m++)
+                    {
+                        if(eatWeapons[m] == item.value) break; //같은 무기가 존재하면 break;
+                    }
+                    if(eatWeapons[i] == -1)
+                    {
+                        eatWeapons[i] = item.value;
+                        hasWeapons[i] = true; //무기가 들어갔다고 표시
+                        break;
+                    }
+                }
+
 
                 Destroy(nearObject);//현재 가지고 있는 무기 제거
             }
