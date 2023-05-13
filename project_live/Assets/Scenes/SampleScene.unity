@@ -152,7 +152,7 @@ BoxCollider:
   m_GameObject: {fileID: 67513681}
   m_Material: {fileID: 13400000, guid: 75cc3e8fbce6f1a46861dd83a416d535, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -602,6 +602,7 @@ MonoBehaviour:
   - {fileID: 1896358974}
   - {fileID: 336794476}
   hasWeapons: 000000
+  eatWeapons: ffffffffffffffffffffffff
   characterBody: {fileID: 528721334}
   cameraArm: {fileID: 2040015450}
 --- !u!1 &542481697
@@ -633,7 +634,7 @@ BoxCollider:
   m_GameObject: {fileID: 542481697}
   m_Material: {fileID: 13400000, guid: 75cc3e8fbce6f1a46861dd83a416d535, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1055,7 +1056,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718520099}
-  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1067,7 +1068,7 @@ Transform:
   - {fileID: 542481701}
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &924993194 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1509416925549156319, guid: a2e051660762cbe4494c17a095a95e10, type: 3}

@@ -5,24 +5,24 @@ using UnityEngine;
 public class ObjectPlacer : MonoBehaviour
 {
     public GameObject[] objectsToPlace;
-    public int numberOfObjects;
+    public int numberOfObjects; //만들갯수
     public Vector3 tileSize;
 
     void Start()
     {
-        for (int i = 0; i < numberOfObjects; i++)
+        
+        for (int i = 0; i < numberOfObjects; i++) //오브젝트 생성
         {
             Vector3 position = GetRandomPosition();
             GameObject objectToPlace = objectsToPlace[Random.Range(0, objectsToPlace.Length)];
 
-            if (!CheckCollision(objectToPlace, position))
-            {
-                Instantiate(objectToPlace, position, Quaternion.identity);
+            if (!CheckCollision(objectToPlace, position)) { 
+                Instantiate(objectToPlace, position, Quaternion.identity); //오브젝트 생성
             }
             else
             {
                 Destroy(objectToPlace);
-                i--;
+                numberOfObjects -=1;
             }
         }
     }
