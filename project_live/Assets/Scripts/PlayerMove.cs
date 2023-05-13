@@ -155,11 +155,11 @@ public class PlayerMove : MonoBehaviour
 
     void Swap(){
         //무기 먹지 않았거나 같은 무기를 들고 있을때는 변경 불가능
-        if(sDown1 && (!hasWeapons[0]|| equipWeaponIndex == 0 ))
+        if(sDown1 && (!hasWeapons[0]|| equipWeaponIndex == eatWeapons[0] ))
             return;
-        if(sDown2 && (!hasWeapons[1] || equipWeaponIndex == 1))
+        if(sDown2 && (!hasWeapons[1] || equipWeaponIndex == eatWeapons[1]))
             return;
-        if(sDown3 && (!hasWeapons[2] || equipWeaponIndex == 2))
+        if(sDown3 && (!hasWeapons[2] || equipWeaponIndex == eatWeapons[2]))
             return;
 
         int weaponIndex = -1; //무기 인덱스 값 변수지정
