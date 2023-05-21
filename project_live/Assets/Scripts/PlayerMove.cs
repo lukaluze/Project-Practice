@@ -41,8 +41,13 @@ public class PlayerMove : MonoBehaviour
     Animator animator;
 
     GameObject nearObject; //item먹었을 경우 이벤트
-    Weapon equipWeapon; //장착중인 무기
+    public Weapon equipWeapon; //장착중인 무기
     int equipWeaponIndex = -1; //무기 없을때는 교체 안되도록
+
+    public int score; //플레이어 점수부분
+    public int health; //플레이어 체력부분
+    public int ammo; //플레이어 총알 개수 부분
+    public int maxHealth; //플레이어 최대체력부분
 
     void Start()
     {
