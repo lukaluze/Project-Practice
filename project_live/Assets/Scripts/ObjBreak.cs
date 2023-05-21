@@ -8,6 +8,7 @@ public class ObjBreak : MonoBehaviour
 {
     public int maxHealth; //최대 Hp
     public int curHealth; //현재 Hp
+    public GameObject dropItem;
     Rigidbody rigid;
     BoxCollider boxColler;
     Material mat;
@@ -29,6 +30,7 @@ public class ObjBreak : MonoBehaviour
             StartCoroutine(OnDamage());
         }
     }
+
     IEnumerator OnDamage() //데미지 를 입었을때
     {
         mat.color = Color.red;  
@@ -41,6 +43,8 @@ public class ObjBreak : MonoBehaviour
         else //디졌네?
         {
             mat.color = Color.grey;
+            if(dropItem != null)
+                Instantiate(dropItem, gameObject.transform.position, Quaternion.identity); //오브젝트 생성
             Destroy(gameObject, 1);
         }
     }

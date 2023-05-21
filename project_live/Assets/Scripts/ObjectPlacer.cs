@@ -21,8 +21,7 @@ public class ObjectPlacer : MonoBehaviour
             }
             else
             {
-                Destroy(objectToPlace);
-                numberOfObjects -=1;
+                numberOfObjects +=  1;
             }
         }
     }
