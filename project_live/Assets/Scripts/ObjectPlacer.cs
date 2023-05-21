@@ -10,18 +10,19 @@ public class ObjectPlacer : MonoBehaviour
 
     void Start()
     {
-        
+
         for (int i = 0; i < numberOfObjects; i++) //오브젝트 생성
         {
             Vector3 position = GetRandomPosition();
             GameObject objectToPlace = objectsToPlace[Random.Range(0, objectsToPlace.Length)];
 
-            if (!CheckCollision(objectToPlace, position)) { 
+            if (!CheckCollision(objectToPlace, position))
+            {
                 Instantiate(objectToPlace, position, Quaternion.identity); //오브젝트 생성
             }
             else
             {
-                numberOfObjects +=  1;
+                numberOfObjects += 1;
             }
         }
     }

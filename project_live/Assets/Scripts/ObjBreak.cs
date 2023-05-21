@@ -12,7 +12,7 @@ public class ObjBreak : MonoBehaviour
     Rigidbody rigid;
     BoxCollider boxColler;
     Material mat;
-   // Start is called before the first frame update
+    // Start is called before the first frame update
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
@@ -21,10 +21,11 @@ public class ObjBreak : MonoBehaviour
         mat = GetComponent<MeshRenderer>().material;
     }
 
-  
+
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Melee") { //근접 무기로 때릴경우
+        if (other.tag == "Melee")
+        { //근접 무기로 때릴경우
             Weapon weapon = other.GetComponent<Weapon>();
             curHealth -= weapon.damage; //근접 무기 데미지로 대미지
             StartCoroutine(OnDamage());
@@ -33,17 +34,17 @@ public class ObjBreak : MonoBehaviour
 
     IEnumerator OnDamage() //데미지 를 입었을때
     {
-        mat.color = Color.red;  
+        mat.color = Color.red;
         yield return new WaitForSeconds(0.1f);
 
-        if(curHealth > 0) //살아있네?
+        if (curHealth > 0) //살아있네?
         {
             mat.color = Color.white;
         }
         else //디졌네?
         {
             mat.color = Color.grey;
-            if(dropItem != null)
+            if (dropItem != null)
                 Instantiate(dropItem, gameObject.transform.position, Quaternion.identity); //오브젝트 생성
             Destroy(gameObject, 1);
         }
