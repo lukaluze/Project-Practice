@@ -18,6 +18,9 @@ public class PlayerMove : MonoBehaviour
 
     Rigidbody rigid; //스크립트 객체의 rigidbody
 
+    float originalSpeed;    //기존 spped의 대체
+    float bounceSpeed;   //벽에 튕겨져 나올때 값
+
     //입력 관련 키
     float hPlayerAsix; // <> 
     float vPlayerAsix; // ㅅV
@@ -51,6 +54,9 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
+        bounceSpeed = 5f;   //벽에 튕겨져 나올때 값
+
+        originalSpeed = speed;          //기존 스피드를 속도의 기본값으로 지정
         animator = characterBody.GetComponentInChildren<Animator>(); //애니메이션 불러오기
         rigid = GetComponent<Rigidbody>();
     }
@@ -86,6 +92,8 @@ public class PlayerMove : MonoBehaviour
 
         fDown = Input.GetButtonDown("Fire1"); //왼쪽마우스 클리시 
     }
+
+
     private void Move() //캐릭터 이동
     {   
         Vector2 moveVec= new Vector2(hPlayerAsix,vPlayerAsix);
@@ -156,7 +164,23 @@ public class PlayerMove : MonoBehaviour
             isJump = false;
             animator.SetBool("isJump", false);
         }
+
+        if (collision.gameObject.CompareTag("Wall")) 
+        {
+            speed = -originalSpeed;         //벽의 부디쳤을때 speed값을 -로
+        }
     }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+
+            speed = originalSpeed; // 원래 속도로 복원
+        }
+    }
+
+
 
     void Swap(){
         //무기 먹지 않았거나 같은 무기를 들고 있을때는 변경 불가능
